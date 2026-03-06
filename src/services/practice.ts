@@ -20,6 +20,7 @@ export async function createPracticeSession(
   lessonId: string,
   userId: string
 ): Promise<string> {
+  if (!db) return `demo-${Date.now()}`;
   const session: Omit<PracticeSession, 'id'> = {
     lessonId,
     userId,
@@ -39,6 +40,7 @@ export async function uploadRecording(
   userId: string,
   uri: string
 ): Promise<string> {
+  if (!db || !storage) return uri;
   const response = await fetch(uri);
   const blob = await response.blob();
   const storageRef = ref(storage, `recordings/${userId}/${practiceId}.m4a`);
@@ -58,6 +60,7 @@ export async function completePractice(
   matchRate: number,
   wordResults: PracticeSession['wordResults']
 ): Promise<void> {
+  if (!db) return;
   await updateDoc(doc(db, COLLECTION, practiceId), {
     transcribedText,
     matchRate,
@@ -67,6 +70,7 @@ export async function completePractice(
 }
 
 export async function updateUserStats(userId: string): Promise<void> {
+  if (!db) return;
   const userRef = doc(db, 'users', userId);
   await updateDoc(userRef, {
     totalPracticeCount: increment(1),
@@ -78,6 +82,7 @@ export async function fetchPracticeHistory(
   userId: string,
   maxResults = 20
 ): Promise<PracticeHistory[]> {
+  if (!db) return [];
   const q = query(
     collection(db, COLLECTION),
     where('userId', '==', userId),
@@ -101,6 +106,7 @@ export async function fetchRecentPractices(
   userId: string,
   count = 5
 ): Promise<PracticeSession[]> {
+  if (!db) return [];
   const q = query(
     collection(db, COLLECTION),
     where('userId', '==', userId),

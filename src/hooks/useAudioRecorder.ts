@@ -7,6 +7,7 @@ interface RecorderState {
   recordingUri: string | null;
   metering: number;
   durationMillis: number;
+  permissionGranted: boolean;
 }
 
 export function useAudioRecorder() {
@@ -16,9 +17,23 @@ export function useAudioRecorder() {
     recordingUri: null,
     metering: -160,
     durationMillis: 0,
+    permissionGranted: false,
   });
 
+  const requestPermission = useCallback(async (): Promise<boolean> => {
+    const { status } = await Audio.requestPermissionsAsync();
+    const granted = status === 'granted';
+    setState((s) => ({ ...s, permissionGranted: granted }));
+    return granted;
+  }, []);
+
   const startRecording = useCallback(async () => {
+    // Request permission first
+    const granted = await requestPermission();
+    if (!granted) {
+      throw new Error('マイクの権限が許可されていません');
+    }
+
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: true,
       playsInSilentModeIOS: true,
@@ -39,7 +54,7 @@ export function useAudioRecorder() {
     await recording.startAsync();
     recordingRef.current = recording;
     setState((s) => ({ ...s, isRecording: true, recordingUri: null }));
-  }, []);
+  }, [requestPermission]);
 
   const stopRecording = useCallback(async (): Promise<string | null> => {
     if (!recordingRef.current) return null;
@@ -61,13 +76,14 @@ export function useAudioRecorder() {
     await recordingRef.current.stopAndUnloadAsync();
     await Audio.setAudioModeAsync({ allowsRecordingIOS: false });
     recordingRef.current = null;
-    setState({ isRecording: false, recordingUri: null, metering: -160, durationMillis: 0 });
-  }, []);
+    setState({ isRecording: false, recordingUri: null, metering: -160, durationMillis: 0, permissionGranted: state.permissionGranted });
+  }, [state.permissionGranted]);
 
   return {
     ...state,
     startRecording,
     stopRecording,
     cancelRecording,
+    requestPermission,
   };
 }

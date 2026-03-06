@@ -4,9 +4,9 @@ import { Colors, BorderRadius, Spacing, FontSize } from '../../constants/colors'
 import { PracticeStep } from '../../types/practice';
 
 const STEPS: { key: PracticeStep; label: string; icon: string }[] = [
-  { key: 'listen', label: 'Listen', icon: '1' },
-  { key: 'shadow', label: 'Shadow', icon: '2' },
-  { key: 'review', label: 'Review', icon: '3' },
+  { key: 'listen', label: '聴く', icon: '1' },
+  { key: 'shadow', label: '録音', icon: '2' },
+  { key: 'review', label: '結果', icon: '3' },
 ];
 
 interface StepIndicatorProps {

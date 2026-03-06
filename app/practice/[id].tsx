@@ -18,6 +18,7 @@ import { StepIndicator } from '../../src/components/practice/StepIndicator';
 import { TextComparison } from '../../src/components/practice/TextComparison';
 import { useAudioPlayer } from '../../src/hooks/useAudioPlayer';
 import { useAudioRecorder } from '../../src/hooks/useAudioRecorder';
+import { useTextToSpeech } from '../../src/hooks/useTextToSpeech';
 import { usePracticeStore } from '../../src/stores/practiceStore';
 import { SAMPLE_LESSONS } from '../../src/constants/sampleData';
 import { compareTexts } from '../../src/utils/textComparison';
@@ -47,12 +48,14 @@ export default function PracticeScreen() {
   const modelPlayer = useAudioPlayer();
   const recordingPlayer = useAudioPlayer();
   const recorder = useAudioRecorder();
+  const tts = useTextToSpeech();
 
   useEffect(() => {
     reset();
     return () => {
       modelPlayer.unloadSound();
       recordingPlayer.unloadSound();
+      tts.stop();
       reset();
     };
   }, [id]);
@@ -69,34 +72,44 @@ export default function PracticeScreen() {
     try {
       await recorder.startRecording();
     } catch (err) {
-      Alert.alert('Error', 'Could not start recording. Please check microphone permissions.');
+      Alert.alert('エラー', '録音を開始できませんでした。マイクの権限を確認してください。');
     }
   }, [recorder]);
 
   const handleStopRecording = useCallback(async () => {
-    const uri = await recorder.stopRecording();
-    if (uri) {
-      setRecordingUri(uri);
-      await recordingPlayer.loadSound(uri);
+    try {
+      const uri = await recorder.stopRecording();
+      if (uri) {
+        setRecordingUri(uri);
 
-      // Simulate transcription for demo (in production: upload → Cloud Functions → STT)
-      setIsProcessing(true);
-      setTimeout(() => {
-        if (lesson) {
-          // Demo: simulate ~70-90% accurate transcription
-          const words = lesson.script.split(/\s+/);
-          const simulated = words
-            .map((w) => (Math.random() > 0.2 ? w : ''))
-            .filter(Boolean)
-            .join(' ');
-          const result = compareTexts(lesson.script, simulated);
-          setTranscribedText(simulated);
-          setMatchRate(result.matchRate);
-          setWordResults(result.wordResults);
+        // Load recording for playback
+        try {
+          await recordingPlayer.loadSound(uri);
+        } catch (e) {
+          console.warn('Could not load recording for playback:', e);
         }
-        setIsProcessing(false);
-        setStep('review');
-      }, 1500);
+
+        // Simulate transcription for demo (in production: upload -> Cloud Functions -> STT)
+        setIsProcessing(true);
+        setTimeout(() => {
+          if (lesson) {
+            const words = lesson.script.split(/\s+/);
+            const simulated = words
+              .map((w) => (Math.random() > 0.2 ? w : ''))
+              .filter(Boolean)
+              .join(' ');
+            const result = compareTexts(lesson.script, simulated);
+            setTranscribedText(simulated);
+            setMatchRate(result.matchRate);
+            setWordResults(result.wordResults);
+          }
+          setIsProcessing(false);
+          setStep('review');
+        }, 1500);
+      }
+    } catch (e) {
+      console.error('Stop recording error:', e);
+      setIsProcessing(false);
     }
   }, [recorder, recordingPlayer, lesson, setRecordingUri, setIsProcessing, setStep, setTranscribedText, setMatchRate, setWordResults]);
 
@@ -104,8 +117,8 @@ export default function PracticeScreen() {
     return (
       <SafeAreaView style={styles.safe}>
         <View style={styles.center}>
-          <Text style={styles.errorText}>Lesson not found</Text>
-          <Button title="Go Back" onPress={() => router.back()} variant="outline" />
+          <Text style={styles.errorText}>レッスンが見つかりません</Text>
+          <Button title="戻る" onPress={() => router.back()} variant="outline" />
         </View>
       </SafeAreaView>
     );
@@ -135,17 +148,29 @@ export default function PracticeScreen() {
                   duration={modelPlayer.duration}
                   onPlay={modelPlayer.play}
                   onPause={modelPlayer.pause}
-                  label="Model Audio"
+                  label="お手本音声"
                 />
               ) : (
-                <View style={styles.noAudio}>
-                  <Text style={styles.noAudioText}>
-                    No model audio available yet.{'\n'}Read the script aloud instead!
+                <View style={styles.ttsContainer}>
+                  <Button
+                    title={tts.isSpeaking ? '停止する' : 'お手本を聴く'}
+                    onPress={() => {
+                      if (tts.isSpeaking) {
+                        tts.stop();
+                      } else {
+                        tts.speak(lesson.script);
+                      }
+                    }}
+                    variant={tts.isSpeaking ? 'outline' : 'primary'}
+                    size="lg"
+                  />
+                  <Text style={styles.ttsHint}>
+                    端末の音声読み上げでスクリプトを再生します
                   </Text>
                 </View>
               )}
             </Card>
-            <Button title="Next: Record Your Voice" onPress={handleNextStep} size="lg" />
+            <Button title="次へ: 声を録音する" onPress={handleNextStep} size="lg" />
           </View>
         )}
 
@@ -165,11 +190,11 @@ export default function PracticeScreen() {
             </Card>
             {isProcessing && (
               <View style={styles.processingContainer}>
-                <Text style={styles.processingText}>Analyzing your pronunciation...</Text>
+                <Text style={styles.processingText}>発音を分析中...</Text>
               </View>
             )}
             {recorder.recordingUri && !recorder.isRecording && !isProcessing && (
-              <Button title="Listen & Compare" onPress={() => setStep('review')} size="lg" />
+              <Button title="聞き比べる" onPress={() => setStep('review')} size="lg" />
             )}
           </View>
         )}
@@ -194,7 +219,7 @@ export default function PracticeScreen() {
                   duration={recordingPlayer.duration}
                   onPlay={recordingPlayer.play}
                   onPause={recordingPlayer.pause}
-                  label="Your Recording"
+                  label="あなたの録音"
                 />
               </Card>
             )}
@@ -209,7 +234,7 @@ export default function PracticeScreen() {
             {/* Actions */}
             <View style={styles.reviewActions}>
               <Button
-                title="Try Again"
+                title="もう一度"
                 onPress={() => {
                   reset();
                 }}
@@ -218,7 +243,7 @@ export default function PracticeScreen() {
                 style={{ flex: 1 }}
               />
               <Button
-                title="Done"
+                title="完了"
                 onPress={() => router.back()}
                 size="lg"
                 style={{ flex: 1 }}
@@ -260,15 +285,15 @@ const styles = StyleSheet.create({
   stepContent: {
     gap: Spacing.md,
   },
-  noAudio: {
+  ttsContainer: {
     alignItems: 'center',
     paddingVertical: Spacing.lg,
+    gap: Spacing.sm,
   },
-  noAudioText: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+  ttsHint: {
+    fontSize: FontSize.xs,
+    color: Colors.textLight,
     textAlign: 'center',
-    lineHeight: 20,
   },
   recorderCard: {
     alignItems: 'center',

@@ -9,6 +9,7 @@ export interface Lesson {
   level: LessonLevel;
   script: string;
   audioUrl: string;
+  imageUrl?: string;
   durationSeconds: number;
   order: number;
   createdAt: number;
@@ -21,15 +22,15 @@ export interface LessonGroup {
 }
 
 export const CATEGORY_LABELS: Record<LessonCategory, string> = {
-  daily: 'Daily Conversation',
-  business: 'Business',
-  travel: 'Travel',
-  academic: 'Academic',
-  idiom: 'Idioms & Phrases',
+  daily: '日常会話',
+  business: 'ビジネス',
+  travel: '旅行',
+  academic: 'アカデミック',
+  idiom: 'イディオム',
 };
 
 export const LEVEL_LABELS: Record<LessonLevel, string> = {
-  beginner: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
+  beginner: '初級',
+  intermediate: '中級',
+  advanced: '上級',
 };

@@ -20,7 +20,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'ホーム',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -29,7 +29,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="lessons"
         options={{
-          title: 'Lessons',
+          title: 'レッスン',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" size={size} color={color} />
           ),
@@ -38,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="progress"
         options={{
-          title: 'Progress',
+          title: '進捗',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="stats-chart-outline" size={size} color={color} />
           ),
@@ -47,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title: '設定',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings-outline" size={size} color={color} />
           ),

@@ -44,58 +44,58 @@ export default function SettingsScreen() {
             <Ionicons name="person" size={32} color={Colors.textOnPrimary} />
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>Guest User</Text>
-            <Text style={styles.profileEmail}>Sign in to save progress</Text>
+            <Text style={styles.profileName}>ゲストユーザー</Text>
+            <Text style={styles.profileEmail}>ログインして進捗を保存しよう</Text>
           </View>
         </Card>
 
         {/* Practice Settings */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Practice</Text>
+          <Text style={styles.sectionTitle}>練習設定</Text>
           <Card padding={0}>
             <SettingItem
               icon="flag-outline"
-              label="Daily Goal"
-              value="3 sessions"
-              onPress={() => Alert.alert('Coming soon')}
+              label="1日の目標"
+              value="3 回"
+              onPress={() => Alert.alert('準備中')}
             />
             <View style={styles.separator} />
             <SettingItem
               icon="notifications-outline"
-              label="Reminders"
-              value="Off"
-              onPress={() => Alert.alert('Coming soon')}
+              label="リマインダー"
+              value="オフ"
+              onPress={() => Alert.alert('準備中')}
             />
           </Card>
         </View>
 
         {/* Community */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Community</Text>
+          <Text style={styles.sectionTitle}>コミュニティ</Text>
           <Card padding={0}>
             <SettingItem
               icon="people-outline"
               label="OSH English Community"
-              onPress={() => Alert.alert('Coming soon', 'Circle.so link will be here')}
+              onPress={() => Alert.alert('準備中', 'Circle.soのリンクがここに表示されます')}
             />
           </Card>
         </View>
 
         {/* App Info */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={styles.sectionTitle}>アプリ情報</Text>
           <Card padding={0}>
-            <SettingItem icon="information-circle-outline" label="Version" value="1.0.0" />
+            <SettingItem icon="information-circle-outline" label="バージョン" value="1.0.0" />
             <View style={styles.separator} />
             <SettingItem
               icon="document-text-outline"
-              label="Terms of Service"
+              label="利用規約"
               onPress={() => {}}
             />
             <View style={styles.separator} />
             <SettingItem
               icon="shield-checkmark-outline"
-              label="Privacy Policy"
+              label="プライバシーポリシー"
               onPress={() => {}}
             />
           </Card>
@@ -104,9 +104,9 @@ export default function SettingsScreen() {
         {/* Sign Out */}
         <TouchableOpacity
           style={styles.signOutButton}
-          onPress={() => Alert.alert('Sign Out', 'Sign in first to use this feature.')}
+          onPress={() => Alert.alert('ログアウト', 'この機能を使うにはログインが必要です。')}
         >
-          <Text style={styles.signOutText}>Sign Out</Text>
+          <Text style={styles.signOutText}>ログアウト</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

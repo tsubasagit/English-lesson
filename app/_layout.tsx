@@ -46,15 +46,15 @@ export default function RootLayout() {
         <Stack.Screen
           name="practice/[id]"
           options={{
-            title: 'Practice',
-            headerBackTitle: 'Back',
+            title: '練習',
+            headerBackTitle: '戻る',
           }}
         />
         <Stack.Screen
           name="result/[practiceId]"
           options={{
-            title: 'Results',
-            headerBackTitle: 'Back',
+            title: '結果',
+            headerBackTitle: '戻る',
           }}
         />
       </Stack>

@@ -11,12 +11,12 @@ export default function ResultScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
-        <Text style={styles.title}>Practice Complete!</Text>
-        <Text style={styles.subtitle}>Session: {practiceId}</Text>
+        <Text style={styles.title}>練習完了!</Text>
+        <Text style={styles.subtitle}>セッション: {practiceId}</Text>
         <Text style={styles.desc}>
-          Detailed result view coming soon.{'\n'}Check the review step for your score.
+          詳細な結果画面は準備中です。{'\n'}レビューステップでスコアを確認してください。
         </Text>
-        <Button title="Back to Home" onPress={() => router.push('/')} size="lg" />
+        <Button title="ホームに戻る" onPress={() => router.push('/')} size="lg" />
       </View>
     </SafeAreaView>
   );

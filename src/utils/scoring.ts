@@ -1,8 +1,8 @@
 export function getScoreLabel(matchRate: number): string {
-  if (matchRate >= 90) return 'Excellent!';
-  if (matchRate >= 70) return 'Great Job!';
-  if (matchRate >= 50) return 'Good Try!';
-  return 'Keep Practicing!';
+  if (matchRate >= 90) return 'すばらしい!';
+  if (matchRate >= 70) return 'いい調子!';
+  if (matchRate >= 50) return 'がんばった!';
+  return 'もっと練習しよう!';
 }
 
 export function getScoreColor(matchRate: number): string {

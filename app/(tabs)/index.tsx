@@ -14,6 +14,7 @@ import { Card } from '../../src/components/ui/Card';
 import { SAMPLE_LESSONS } from '../../src/constants/sampleData';
 import { LEVEL_LABELS } from '../../src/types/lesson';
 import { Badge } from '../../src/components/ui/Badge';
+import { SAMPLE_STATS } from '../../src/constants/sampleProgress';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -25,12 +26,12 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Welcome back!</Text>
-            <Text style={styles.appName}>Oshaberi Shadow</Text>
+            <Text style={styles.greeting}>おかえりなさい!</Text>
+            <Text style={styles.appName}>おしゃべりShadow</Text>
           </View>
           <View style={styles.streakBadge}>
             <Ionicons name="flame" size={20} color={Colors.primary} />
-            <Text style={styles.streakText}>0 days</Text>
+            <Text style={styles.streakText}>{SAMPLE_STATS.streakDays} 日</Text>
           </View>
         </View>
 
@@ -45,9 +46,9 @@ export default function HomeScreen() {
               <Ionicons name="mic" size={28} color={Colors.textOnPrimary} />
             </View>
             <View style={styles.quickStartText}>
-              <Text style={styles.quickStartTitle}>Start Shadowing</Text>
+              <Text style={styles.quickStartTitle}>シャドーイングを始める</Text>
               <Text style={styles.quickStartSub}>
-                Pick up where you left off
+                前回の続きから練習しよう
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={24} color={Colors.textOnPrimary} />
@@ -58,27 +59,27 @@ export default function HomeScreen() {
         <View style={styles.statsRow}>
           <Card style={styles.statCard}>
             <Ionicons name="time-outline" size={24} color={Colors.secondary} />
-            <Text style={styles.statValue}>0 min</Text>
-            <Text style={styles.statLabel}>Today</Text>
+            <Text style={styles.statValue}>{SAMPLE_STATS.todayMinutes} 分</Text>
+            <Text style={styles.statLabel}>今日</Text>
           </Card>
           <Card style={styles.statCard}>
             <Ionicons name="checkmark-circle-outline" size={24} color={Colors.accent} />
-            <Text style={styles.statValue}>0</Text>
-            <Text style={styles.statLabel}>Completed</Text>
+            <Text style={styles.statValue}>{SAMPLE_STATS.totalSessions}</Text>
+            <Text style={styles.statLabel}>完了</Text>
           </Card>
           <Card style={styles.statCard}>
             <Ionicons name="trending-up-outline" size={24} color={Colors.primary} />
-            <Text style={styles.statValue}>--%</Text>
-            <Text style={styles.statLabel}>Avg Score</Text>
+            <Text style={styles.statValue}>{SAMPLE_STATS.averageScore}%</Text>
+            <Text style={styles.statLabel}>平均スコア</Text>
           </Card>
         </View>
 
         {/* Recommended Lessons */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Recommended</Text>
+            <Text style={styles.sectionTitle}>おすすめ</Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/lessons')}>
-              <Text style={styles.seeAll}>See all</Text>
+              <Text style={styles.seeAll}>すべて見る</Text>
             </TouchableOpacity>
           </View>
           {recentLessons.map((lesson) => (

@@ -10,7 +10,7 @@ interface ScriptDisplayProps {
 export function ScriptDisplay({ script }: ScriptDisplayProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Script</Text>
+      <Text style={styles.label}>スクリプト</Text>
       <Text style={styles.script}>{script}</Text>
     </View>
   );

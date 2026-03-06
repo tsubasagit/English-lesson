@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -29,7 +30,7 @@ const CATEGORIES: (LessonCategory | 'all')[] = [
 ];
 
 const CATEGORY_TAB_LABELS: Record<string, string> = {
-  all: 'All',
+  all: 'すべて',
   ...CATEGORY_LABELS,
 };
 
@@ -78,21 +79,14 @@ export default function LessonsScreen() {
             activeOpacity={0.7}
           >
             <Card style={styles.lessonCard}>
-              <View style={styles.lessonIcon}>
-                <Ionicons
-                  name={
-                    lesson.category === 'business'
-                      ? 'briefcase-outline'
-                      : lesson.category === 'travel'
-                      ? 'airplane-outline'
-                      : lesson.category === 'idiom'
-                      ? 'bulb-outline'
-                      : 'chatbubble-outline'
-                  }
-                  size={24}
-                  color={Colors.primary}
+              {lesson.imageUrl ? (
+                <Image
+                  source={{ uri: lesson.imageUrl }}
+                  style={styles.lessonImage}
                 />
-              </View>
+              ) : (
+                <View style={styles.lessonImagePlaceholder} />
+              )}
               <View style={styles.lessonInfo}>
                 <Text style={styles.lessonTitle}>{lesson.title}</Text>
                 <Text style={styles.lessonDesc} numberOfLines={2}>
@@ -159,13 +153,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.md,
   },
-  lessonIcon: {
-    width: 48,
-    height: 48,
+  lessonImage: {
+    width: 64,
+    height: 64,
     borderRadius: BorderRadius.md,
-    backgroundColor: Colors.primary + '12',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  lessonImagePlaceholder: {
+    width: 64,
+    height: 64,
+    borderRadius: BorderRadius.md,
+    backgroundColor: Colors.surfaceSecondary,
   },
   lessonInfo: {
     flex: 1,

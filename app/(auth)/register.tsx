@@ -23,11 +23,11 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     if (!name || !email || !password) {
-      Alert.alert('Error', 'Please fill in all fields.');
+      Alert.alert('エラー', 'すべての項目を入力してください。');
       return;
     }
     if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters.');
+      Alert.alert('エラー', 'パスワードは6文字以上で入力してください。');
       return;
     }
     setLoading(true);
@@ -35,7 +35,7 @@ export default function RegisterScreen() {
       await signUp(email, password, name);
       router.replace('/');
     } catch (err: any) {
-      Alert.alert('Registration Failed', err.message || 'Something went wrong.');
+      Alert.alert('登録失敗', err.message || 'エラーが発生しました。');
     } finally {
       setLoading(false);
     }
@@ -48,21 +48,21 @@ export default function RegisterScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.header}>
-          <Text style={styles.appName}>Oshaberi Shadow</Text>
-          <Text style={styles.subtitle}>Create your account</Text>
+          <Text style={styles.appName}>おしゃべりShadow</Text>
+          <Text style={styles.subtitle}>アカウントを作成</Text>
         </View>
 
         <View style={styles.form}>
           <TextInput
             style={styles.input}
-            placeholder="Display Name"
+            placeholder="表示名"
             placeholderTextColor={Colors.textLight}
             value={name}
             onChangeText={setName}
           />
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="メールアドレス"
             placeholderTextColor={Colors.textLight}
             value={email}
             onChangeText={setEmail}
@@ -71,19 +71,19 @@ export default function RegisterScreen() {
           />
           <TextInput
             style={styles.input}
-            placeholder="Password (6+ characters)"
+            placeholder="パスワード（6文字以上）"
             placeholderTextColor={Colors.textLight}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
-          <Button title="Create Account" onPress={handleRegister} loading={loading} size="lg" />
+          <Button title="アカウント作成" onPress={handleRegister} loading={loading} size="lg" />
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Already have an account? </Text>
+          <Text style={styles.footerText}>アカウントをお持ちの方 </Text>
           <Button
-            title="Sign In"
+            title="ログイン"
             onPress={() => router.back()}
             variant="ghost"
             size="sm"

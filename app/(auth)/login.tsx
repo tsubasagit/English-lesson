@@ -22,7 +22,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields.');
+      Alert.alert('エラー', 'すべての項目を入力してください。');
       return;
     }
     setLoading(true);
@@ -30,7 +30,7 @@ export default function LoginScreen() {
       await signIn(email, password);
       router.replace('/');
     } catch (err: any) {
-      Alert.alert('Login Failed', err.message || 'Please check your credentials.');
+      Alert.alert('ログイン失敗', err.message || '認証情報を確認してください。');
     } finally {
       setLoading(false);
     }
@@ -43,14 +43,14 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.header}>
-          <Text style={styles.appName}>Oshaberi Shadow</Text>
-          <Text style={styles.subtitle}>Sign in to continue</Text>
+          <Text style={styles.appName}>おしゃべりShadow</Text>
+          <Text style={styles.subtitle}>ログインして続けましょう</Text>
         </View>
 
         <View style={styles.form}>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder="メールアドレス"
             placeholderTextColor={Colors.textLight}
             value={email}
             onChangeText={setEmail}
@@ -59,19 +59,19 @@ export default function LoginScreen() {
           />
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder="パスワード"
             placeholderTextColor={Colors.textLight}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
-          <Button title="Sign In" onPress={handleLogin} loading={loading} size="lg" />
+          <Button title="ログイン" onPress={handleLogin} loading={loading} size="lg" />
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? </Text>
+          <Text style={styles.footerText}>アカウントをお持ちでない方 </Text>
           <Button
-            title="Sign Up"
+            title="新規登録"
             onPress={() => router.push('/(auth)/register')}
             variant="ghost"
             size="sm"
@@ -79,7 +79,7 @@ export default function LoginScreen() {
         </View>
 
         <Button
-          title="Continue as Guest"
+          title="ゲストとして続ける"
           onPress={() => router.replace('/')}
           variant="ghost"
           size="md"

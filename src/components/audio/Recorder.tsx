@@ -39,7 +39,7 @@ export function Recorder({
       <Text style={styles.duration}>
         {isRecording
           ? formatDuration(Math.floor(durationMillis / 1000))
-          : 'Tap to record'}
+          : 'タップして録音'}
       </Text>
     </View>
   );

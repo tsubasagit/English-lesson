@@ -10,7 +10,7 @@ interface TextComparisonProps {
 export function TextComparison({ wordResults }: TextComparisonProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Your Result</Text>
+      <Text style={styles.label}>あなたの結果</Text>
       <View style={styles.wordContainer}>
         {wordResults.map((result, index) => (
           <View key={index} style={styles.wordWrapper}>
@@ -33,15 +33,15 @@ export function TextComparison({ wordResults }: TextComparisonProps) {
       <View style={styles.legend}>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: Colors.matchCorrect }]} />
-          <Text style={styles.legendText}>Correct</Text>
+          <Text style={styles.legendText}>正解</Text>
         </View>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: Colors.matchIncorrect }]} />
-          <Text style={styles.legendText}>Incorrect</Text>
+          <Text style={styles.legendText}>間違い</Text>
         </View>
         <View style={styles.legendItem}>
           <View style={[styles.legendDot, { backgroundColor: Colors.matchMissing }]} />
-          <Text style={styles.legendText}>Missing</Text>
+          <Text style={styles.legendText}>抜け</Text>
         </View>
       </View>
     </View>
