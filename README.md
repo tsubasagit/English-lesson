@@ -4,9 +4,7 @@
 
 ## デモ
 
-https://github.com/user-attachments/assets/demo.mp4
-
-> 上の動画が表示されない場合は [docs/demo.mp4](docs/demo.mp4) から直接ご覧ください。
+https://github.com/tsubasagit/English-lesson/releases/download/v1.0.0/demo.mp4
 
 <img src="docs/screenshot.png" width="320" alt="ホーム画面">
 
